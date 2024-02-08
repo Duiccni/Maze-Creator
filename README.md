@@ -23,3 +23,6 @@ LINE | CODE
 
 ### Get basic datas from console
 ![image](https://github.com/Duiccni/Lime-Maze-Creator/assets/143947543/e74cd368-8ee4-4c1e-a1be-c191c761a589)
+
+## Waaow (Picture Mode)
+![image](https://github.com/Duiccni/Lime-Maze-Creator/assets/143947543/32f97c97-fd83-404e-80b3-303681a5a40f)

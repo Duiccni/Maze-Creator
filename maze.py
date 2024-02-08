@@ -8,7 +8,7 @@ RED = 0x3D102D
 BLACK = 0x181A1B
 
 TILE_SIZE = 50
-TILE_AMOUNT = 4
+TILE_AMOUNT = 5
 EXTRA = 60
 RRES = TILE_SIZE * TILE_AMOUNT
 RES = RRES + EXTRA
@@ -62,6 +62,15 @@ def connect(cell: tuple[int, int], slope: int, data: None | tuple[int, int] = No
 	return False
 
 
+def checkIfFinnished() -> bool:
+	val = cells[0][0]
+	for y in cells:
+		for x in y:
+			if x != val:
+				return False
+	return True
+
+
 pygame.init()
 pygame.font.init()
 
@@ -81,10 +90,16 @@ while True:
 		if e.type == pygame.QUIT:
 			running = False
 			break
-		if e.type == pygame.KEYUP and e.key == pygame.K_SPACE:
-			last_cell = (random.randint(0, EDGE_AMOUNT), random.randint(0, EDGE_AMOUNT))
-			last_slope = random.randint(0, 1)
-			err = connect(last_cell, last_slope)
+		if e.type == pygame.KEYUP:
+			if e.key == pygame.K_SPACE:
+				last_cell = (random.randint(0, EDGE_AMOUNT), random.randint(0, EDGE_AMOUNT))
+				last_slope = random.randint(0, 1)
+				err = connect(last_cell, last_slope)
+			elif e.key == pygame.K_c:
+				if checkIfFinnished():
+					BLACK = 0x003000
+				else:
+					BLACK = 0x300000
 	if running == False:
 		break
 	screen.fill(BLACK)

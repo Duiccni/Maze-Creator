@@ -8,7 +8,7 @@ RED = 0x3D102D
 BLACK = 0x181A1B
 
 TILE_SIZE = 50
-TILE_AMOUNT = 5
+TILE_AMOUNT = 12
 EXTRA = 60
 RRES = TILE_SIZE * TILE_AMOUNT
 RES = RRES + EXTRA
@@ -85,6 +85,22 @@ last_cell = (0, 0)
 last_slope = -1
 err = False
 
+def getRandom() -> tuple[int, int]:
+	return (random.randint(0, EDGE_AMOUNT), random.randint(0, EDGE_AMOUNT))
+
+def getDiffrent3x3() -> tuple[int, int]:
+	val = cells[0][0]
+	for y in range(TILE_AMOUNT):
+		for x in range(TILE_AMOUNT):
+			x2 = (x * 2) % TILE_AMOUNT
+			y2 = (y * 2) % TILE_AMOUNT
+			if cells[y2][x2] != val:
+				return (max(x2 + random.randint(-1, 1), 0),
+						max(y2 + random.randint(-1, 1), 0))
+	return (-1, 0)
+
+auto_tick = False
+
 while True:
 	for e in pygame.event.get():
 		if e.type == pygame.QUIT:
@@ -92,7 +108,7 @@ while True:
 			break
 		if e.type == pygame.KEYUP:
 			if e.key == pygame.K_SPACE:
-				last_cell = (random.randint(0, EDGE_AMOUNT), random.randint(0, EDGE_AMOUNT))
+				last_cell = getRandom()
 				last_slope = random.randint(0, 1)
 				err = connect(last_cell, last_slope)
 			elif e.key == pygame.K_c:
@@ -100,8 +116,14 @@ while True:
 					BLACK = 0x003000
 				else:
 					BLACK = 0x300000
+			elif e.key == pygame.K_b:
+				auto_tick ^= True
 	if running == False:
 		break
+	if auto_tick:
+		last_cell = getRandom()
+		last_slope = random.randint(0, 1)
+		err = connect(last_cell, last_slope)
 	screen.fill(BLACK)
 
 	# draw grid

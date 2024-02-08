@@ -15,7 +15,7 @@ RES = RRES + EXTRA
 
 n_TILE_SIZE = TILE_SIZE - 1
 
-FPS = 10
+FPS = 20
 
 cells = [[y * TILE_AMOUNT + x for x in range(TILE_AMOUNT)] for y in range(TILE_AMOUNT)]
 EDGE_AMOUNT = TILE_AMOUNT - 1
@@ -100,6 +100,7 @@ def getDiffrent3x3() -> tuple[int, int]:
 	return (-1, 0)
 
 auto_tick = False
+picture_mode = False
 
 while True:
 	for e in pygame.event.get():
@@ -118,6 +119,10 @@ while True:
 					BLACK = 0x300000
 			elif e.key == pygame.K_b:
 				auto_tick ^= True
+			elif e.key == pygame.K_p:
+				picture_mode ^= True
+				if picture_mode:
+					BLACK = 0x181A1B
 	if running == False:
 		break
 	if auto_tick:
@@ -146,7 +151,7 @@ while True:
 					(y2 + TILE_SIZE, x2),
 				)
 
-	if last_slope != -1:
+	if last_slope != -1 and picture_mode == False:
 		pygame.draw.rect(
 			screen,
 			RED if err else GREEN,
@@ -171,10 +176,11 @@ while True:
 		(RRES, RRES),
 	)
 
-	for y in range(TILE_AMOUNT):
-		for x in range(TILE_AMOUNT):
-			surface = font.render(str(cells[y][x]), 0, WHITE)
-			screen.blit(surface, (x * TILE_SIZE + 5, y * TILE_SIZE + 5))
+	if picture_mode == False:
+		for y in range(TILE_AMOUNT):
+			for x in range(TILE_AMOUNT):
+				surface = font.render(str(cells[y][x]), 0, WHITE)
+				screen.blit(surface, (x * TILE_SIZE + 5, y * TILE_SIZE + 5))
 
 	pygame.display.flip()
 	clock.tick(FPS)

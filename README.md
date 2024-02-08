@@ -1,4 +1,4 @@
-Just after installing pygame run the code. easy peasy lemon squeezy
+### Just after installing pygame run the code. easy peasy lemon squeezy
 ```
 > pip install pygame
 ```

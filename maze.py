@@ -123,6 +123,11 @@ while True:
 				picture_mode ^= True
 				if picture_mode:
 					BLACK = 0x181A1B
+		elif e.type == pygame.MOUSEBUTTONDOWN:
+			last_cell = pygame.mouse.get_pos()
+			last_cell = ((last_cell[0] // TILE_SIZE), (last_cell[1] // TILE_SIZE))
+			last_slope = random.randint(0, 1)
+			err = connect(last_cell, last_slope)
 	if running == False:
 		break
 	if auto_tick:
